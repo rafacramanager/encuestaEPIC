@@ -1,0 +1,88 @@
+<!-- gracias.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡Gracias!</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f9fc;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+    .container {
+        text-align: center;
+        margin-top: 100px;
+    }
+    h1 {
+        color: #28a745;
+        font-size: 2.5em;
+    }
+    .btn {
+        margin-top: 30px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    canvas {
+        position: fixed;
+        pointer-events: none;
+        top: 0;
+        left: 0;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎉 ¡Gracias por tu participación! 🎉</h1>
+    <p>Tu opinión es muy importante para nosotros.</p>
+    <a href="index.html" class="btn">Volver a contestar</a>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+// Confetti
+const canvas = document.getElementById('confetti');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const pieces = [];
+
+for (let i = 0; i < 150; i++) {
+    pieces.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        size: Math.random() * 8 + 2,
+        speed: Math.random() * 3 + 2,
+        color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+        tilt: Math.random() * 10 - 10
+    });
+}
+
+function update() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let p of pieces) {
+        p.y += p.speed;
+        if (p.y > canvas.height) {
+            p.y = -10;
+            p.x = Math.random() * canvas.width;
+        }
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x + p.tilt, p.y, p.size, p.size);
+    }
+    requestAnimationFrame(update);
+}
+
+update();
+</script>
+
+</body>
+</html>

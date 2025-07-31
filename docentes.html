@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encuesta para Docentes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark {
+      background: #121212;
+      color: #f0f0f0;
+    }
+    a {
+      display: inline-block;
+      margin: 20px;
+      color: inherit;
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 850px;
+      margin: 20px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      animation: fadeIn 0.5s ease-in;
+    }
+    body.dark .container {
+      background: #1e1e1e;
+      box-shadow: 0 4px 12px rgba(255,255,255,0.05);
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    body.dark h1 {
+      color: #e0e0e0;
+    }
+    h3, h4 {
+      text-align: center;
+      font-weight: normal;
+      color: #555;
+    }
+    body.dark h3, 
+    body.dark h4 {
+      color: #ccc;
+    }
+    .pregunta {
+      margin-bottom: 20px;
+    }
+    .pregunta label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .pregunta textarea {
+      width: 100%;
+      min-height: 80px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+      font-size: 1em;
+      transition: border 0.3s;
+    }
+    body.dark .pregunta textarea {
+      background: #2a2a2a;
+      color: #f0f0f0;
+      border: 1px solid #555;
+    }
+    .submit-btn {
+      display: block;
+      margin: 30px auto 0;
+      padding: 12px 30px;
+      font-size: 1.1em;
+      background: linear-gradient(90deg, #3498db, #2980b9);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .submit-btn:hover {
+      background: linear-gradient(90deg, #2980b9, #3498db);
+    }
+    #darkModeBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #444;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.2em;
+      cursor: pointer;
+      width: 45px;
+      height: 45px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      transition: background 0.3s;
+    }
+    #darkModeBtn:hover {
+      background: #666;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <button id="darkModeBtn" title="Cambiar modo">🌙</button>
+  <a href="index.html">⬅ Regresar al Inicio</a>
+  
+  <div class="container">
+    <div align="center">
+      <img src="assets/MNE.png" alt="Logo MNE" width="300px">
+    </div>
+    <h1>App Feedback para Docentes</h1>
+    <h3>Responde cada pregunta con tus palabras</h3>
+    <h4>Puedes expresar tanto lo positivo como lo negativo</h4>
+    <hr>
+
+    <form id="encuesta"></form>
+  </div>
+
+  <script>
+    const preguntas = [
+      "Al pensar en los últimos tres meses, ¿Cómo describiría sus emociones?",
+      "¿Qué acciones realiza para manejar el estrés?",
+      "¿Cuál es el aspecto de su materia o área de conocimiento que más les apasiona enseñar y por qué?",
+      "Si pudieran diseñar un proyecto educativo ideal, ¿cómo sería y qué objetivos tendría?",
+      "¿Qué habilidades o conocimientos consideran más cruciales que los estudiantes adquieran hoy en día, más allá del currículo?",
+      "¿Hay alguna nueva metodología pedagógica o tecnología educativa que les interese explorar o implementar en sus clases?",
+      "¿Qué tipo de oportunidades de desarrollo profesional (cursos, talleres, conferencias) consideran más valiosas para su crecimiento?",
+      "¿Cómo percibe su ambiente escolar?",
+      "¿Cómo fomenta un ambiente de aprendizaje inclusivo y motivador en sus aulas?",
+      "¿Qué estrategias usan para mantener una comunicación efectiva con los estudiantes, colegas y padres de familia?",
+      "¿Cómo vincula la cotidianidad de la comunidad en su práctica docente?",
+      "Desde su perspectiva, ¿cuál es el mayor desafío en el ambiente escolar y cómo creen que se puede abordar?",
+      "¿De qué manera la comunidad puede apoyar la labor del docente y la escuela?"
+    ];
+
+    const form = document.getElementById("encuesta");
+
+    preguntas.forEach((texto, index) => {
+      const div = document.createElement("div");
+      div.className = "pregunta";
+
+      const label = document.createElement("label");
+      label.textContent = `${index + 1}. ${texto}`;
+      label.setAttribute("for", `respuesta${index}`);
+
+      const textarea = document.createElement("textarea");
+      textarea.id = `respuesta${index}`;
+      textarea.name = `respuesta${index}`;
+
+      div.appendChild(label);
+      div.appendChild(textarea);
+      form.appendChild(div);
+    });
+
+    const boton = document.createElement("button");
+    boton.type = "submit";
+    boton.className = "submit-btn";
+    boton.textContent = "Enviar respuestas";
+    form.appendChild(boton);
+
+    // Redirigir al enviar
+    form.addEventListener("submit", function(e) {
+    e.preventDefault(); // Evita recargar la página
+    window.location.href = "gracias.html"; // Redirige
+    });
+
+    // Modo oscuro persistente
+    const darkBtn = document.getElementById("darkModeBtn");
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      localStorage.setItem("modoOscuro", document.body.classList.contains("dark"));
+      darkBtn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+    }
+    darkBtn.addEventListener("click", toggleDarkMode);
+
+    // Cargar preferencia guardada
+    if (localStorage.getItem("modoOscuro") === "true") {
+      document.body.classList.add("dark");
+      darkBtn.textContent = "☀️";
+    }
+  </script>
+</body>
+</html>
